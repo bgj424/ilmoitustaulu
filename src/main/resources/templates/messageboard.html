@@ -7,16 +7,27 @@
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/style.css}" />
 </head>
 <body>
-	<h1>Ilmoitukset</h1>
-	<p>
-		Hae ilmoituksia: 
+<header style="background-color:#242424;color:white" class="text-center p-3 mb-5">
+	<div class="row">
+	<div class="col-6"><h1>Ilmoitustaulu</h1></div>
+	<div class="col-6" th:if="${user} != null"><p class="btn btn-success">Kirjautunut käyttäjänä <span th:text="${user}"></span></p></div> <!-- Näytä jos kirjautunut -->
+	<div class="col-6" th:if="${user} == null"><a href="/login" class="btn btn-success m-2">Kirjaudu sisään</a><a href="/signup" class="btn btn-primary m-2">Tee uusi käyttäjä</a></div> <!-- Näytä jos ei kirjautunut -->
+	</div>
+</header>
+<div class="container">
+	<div class="col-3"></div>
+	<div class="col-6"></div>
+	<p>Hae ilmoituksia
 		<a href="/" class="btn btn-primary">Kaikki</a>
 		<a href="/myydään" class="btn btn-success">Myydään</a>
 		<a href="/ostetaan" class="btn btn-info">Ostetaan</a>
 		<a href="/vaihdetaan" class="btn btn-warning">Vaihdetaan</a>
 	</p>
-   	<table th:each="message : ${messages}" class="table table-borderless mb-3 col-5" style="background-color:#e6e6e6">
+	<hr>
+	<h3>Ilmoitukset (<span th:text="${count}"></span>)</h3> <!-- Näytä ilmoitusten määrä -->
+   	<table th:each="message : ${messages}" class="table table-borderless mb-3" style="background-color:#f0f0f0">
    		<tr th:switch="${message.category.name}"> 
+   			<!-- Eri värit eri kategorioille -->
    			<th class="p-2 bg-info d-inline-flex" th:case="'Ostetaan'" style="text-decoration:underline;" th:text="${message.category.name}"></th>
    			<th class="p-2 bg-success d-inline-flex" th:case="'Myydään'"style="text-decoration:underline;" th:text="${message.category.name}" th></th>
    			<th class="p-2 bg-warning d-inline-flex" th:case="'Vaihdetaan'"style="text-decoration:underline;" th:text="${message.category.name}" th></th>
@@ -31,7 +42,10 @@
     		<td th:text="${message.date}"></td>
     		<td class="text-right" th:text="'Ilmoituksen jättänyt: ' + ${message.author}"></td>
     	</tr>		
-    	</table>
-	 <a href="/add" class="btn btn-primary">Tee ilmoitus</a> 
+    </table>
+    <hr>
+	<a href="/add" class="btn btn-primary">Tee ilmoitus</a>
+	<div class="col-3"></div>
+</div>
 </body>
 </html>

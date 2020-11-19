@@ -13,8 +13,6 @@
 			<input type="text" id="title" th:field="*{title}" />
 		  	<label for="text">Teksti</label>
 			<input type="text" id="text" th:field="*{text}" />
-		  	<label for="author">Luonut</label>
-			<input type="text" id="author" th:field="*{author}" />
 			<label for="categorylist">Kategoria</label>
 			<select id="categorylist" th:field="*{category}">
 				<option th:each="category: ${categories}" th:value="${category.categoryId}" th:text="${category.name}"></option>

@@ -8,7 +8,7 @@
 <body>
 <div class="container">
 	<h1>Sign-up</h1>
-     <div class="col-md-4">
+    <div class="col-4 text-center">
 		<form th:object="${signupform}" th:action="@{/saveuser}" action="#" method="post">
 			<div>
 				<label> Username :<input type="text" th:field="*{username}" class="form-control"/></label>

@@ -1,5 +1,7 @@
 package com.example.ilmoitustaulu.web;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,11 +24,16 @@ public class UserDetailServiceImpl implements UserDetailsService  {
 		this.repository = userRepository;
 	}
 	
+	@Autowired
+	private HttpSession session;
+	
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {   
     	User curruser = repository.findByUsername(username);
         UserDetails user = new org.springframework.security.core.userdetails.User(username, curruser.getPasswordHash(), 
         		AuthorityUtils.createAuthorityList(curruser.getRole()));
+        session.setAttribute("User", curruser);
+        session.setAttribute("Username", curruser.getUsername());
         return user;
     }   
 }
