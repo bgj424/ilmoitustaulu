@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lisää ilmoitus</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
+</head>
+<body>
+	<h1>Ilmoituksen tiedot</h1>
+	<div>
+		<form th:object="${message}" th:action="@{save}" action="#" method="post">
+		  	<label for="title">Otsikko</label>
+			<input type="text" id="title" th:field="*{title}" />
+		  	<label for="text">Teksti</label>
+			<input type="text" id="text" th:field="*{text}" />
+		  	<label for="author">Luonut</label>
+			<input type="text" id="author" th:field="*{author}" />
+			<label for="categorylist">Kategoria</label>
+			<select id="categorylist" th:field="*{category}">
+				<option th:each="category: ${categories}" th:value="${category.categoryId}" th:text="${category.name}"></option>
+			</select>
+			<input type="submit" value="Lisää ilmoitus"/>
+		</form>
+	</div>
+</body>
+</html>

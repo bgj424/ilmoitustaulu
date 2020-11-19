@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ilmoitustaulu</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/style.css}" />
+</head>
+<body>
+	<h1>Ilmoitukset</h1>
+	<p>
+		Hae ilmoituksia: 
+		<a href="/" class="btn btn-primary">Kaikki</a>
+		<a href="/myydään" class="btn btn-success">Myydään</a>
+		<a href="/ostetaan" class="btn btn-info">Ostetaan</a>
+		<a href="/vaihdetaan" class="btn btn-warning">Vaihdetaan</a>
+	</p>
+   	<table th:each="message : ${messages}" class="table table-borderless mb-3 col-5" style="background-color:#e6e6e6">
+   		<tr th:switch="${message.category.name}"> 
+   			<th class="p-2 bg-info d-inline-flex" th:case="'Ostetaan'" style="text-decoration:underline;" th:text="${message.category.name}"></th>
+   			<th class="p-2 bg-success d-inline-flex" th:case="'Myydään'"style="text-decoration:underline;" th:text="${message.category.name}" th></th>
+   			<th class="p-2 bg-warning d-inline-flex" th:case="'Vaihdetaan'"style="text-decoration:underline;" th:text="${message.category.name}" th></th>
+   		</tr> 
+   		<tr>
+		    <th th:text="${message.title}"></th>
+		</tr>
+		<tr>
+			<td th:text="${message.text}"></td>
+		</tr>
+		<tr>
+    		<td th:text="${message.date}"></td>
+    		<td class="text-right" th:text="'Ilmoituksen jättänyt: ' + ${message.author}"></td>
+    	</tr>		
+    	</table>
+	 <a href="/add" class="btn btn-primary">Tee ilmoitus</a> 
+</body>
+</html>
