@@ -41,7 +41,10 @@
 		<tr>
     		<td th:text="${message.date}"></td>
     		<td class="text-right" th:text="'Ilmoituksen jättänyt: ' + ${message.author}"></td>
-    	</tr>		
+    	</tr>
+    	<tr sec:authorize="hasAuthority('ADMIN')">
+    		<td><a th:href="@{/adminDelete/{id}(id=${message.id})}" class="btn btn-xs btn-danger">Poista</a></td>
+    	</tr>
     </table>
     <hr>
 	<a href="/add" class="btn btn-primary">Tee ilmoitus</a>

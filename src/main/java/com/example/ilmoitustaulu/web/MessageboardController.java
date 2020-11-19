@@ -4,14 +4,15 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.example.ilmoitustaulu.domain.CategoryRepository;
 import com.example.ilmoitustaulu.domain.Message;
@@ -59,7 +60,7 @@ public class MessageboardController {
 	// Hakuasetukset
 	@RequestMapping(value = "/vaihdetaan")
 	public String vaihdetaan(Model model) {
-		List<Message> copyList = messagerepository.findByCategory(categoryrepository.findByName("Vaihdetaan").get(0));
+		List<Message> copyList = messagerepository.findByCategory(categoryrepository.findByName("Vaihdetaan").get(0)); // Haetaan lista kategoriaan sopivista ilmoituksista
         model.addAttribute("messages", copyList);  // Etsitään viestit
         model.addAttribute("count", copyList.size());  // Ilmoitusten määrä
         model.addAttribute("categories", categoryrepository.findAll());
@@ -89,8 +90,21 @@ public class MessageboardController {
 	
 	// Kirjautumissivu
 	@RequestMapping(value="/login")
-    public String login() {	
+    public String login() {
+		if(session.getAttribute("Username") != null) { // Tarkistetaan onko käyttäjä kirjautunut, jos on niin siirretään suoraan etusivulle
+			return "redirect:messageboard";
+		}
         return "login";
+    }
+	
+	// Ilmoituksen poistaminen
+	
+	@Transactional
+	@PreAuthorize("hasAuthority('ADMIN')")	// Käyttäjällä on oltava admin-oikeudet
+    @RequestMapping(value = "/adminDelete/{id}", method = RequestMethod.GET)
+    public String adminDeleteMessage(@PathVariable("id") int messageid, Model model) {
+    	messagerepository.deleteById(messageid);
+        return "redirect:../messageboard";
     }
 
 }

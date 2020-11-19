@@ -6,19 +6,27 @@
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
 </head>
 <body>
-	<h1>Ilmoituksen tiedot</h1>
-	<div>
-		<form th:object="${message}" th:action="@{save}" action="#" method="post">
-		  	<label for="title">Otsikko</label>
+<header><h1>Ilmoituksen tiedot</h1></header>
+<div class="container">
+	<form th:object="${message}" th:action="@{save}" action="#" method="post">
+	<div class="row">
+		<div class="col-3">
+			<label for="title">Otsikko</label>
 			<input type="text" id="title" th:field="*{title}" />
+		</div>
+		<div class="col-3">
 		  	<label for="text">Teksti</label>
 			<input type="text" id="text" th:field="*{text}" />
+		</div>
+		<div class="col-3">
 			<label for="categorylist">Kategoria</label>
 			<select id="categorylist" th:field="*{category}">
 				<option th:each="category: ${categories}" th:value="${category.categoryId}" th:text="${category.name}"></option>
 			</select>
-			<input type="submit" value="Lisää ilmoitus"/>
-		</form>
+		</div>
+	</div>
+		<input class="btn btn-primary" type="submit" value="Lisää ilmoitus"/>
+	</form>
 	</div>
 </body>
 </html>
